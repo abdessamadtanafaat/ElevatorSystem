@@ -1,4 +1,6 @@
 package model;
+import dispatcher.Dispatcher;
+
 import java.util.*;
 public class Building {
     private int numberOfFloors;
@@ -12,12 +14,9 @@ public class Building {
 
 
     public String requestElevator() {
-        return elevators.stream()
-                .min((e1,e2) -> Double.compare
-                        (e1.calculateDistance(numberOfFloors)
-                                ,e2.calculateDistance(numberOfFloors)))
-                d.orElseThrow(()-> new RuntimeException("No elevators available"))
-                .getId();
+
+        Dispatcher dispatcher = Dispatcher.getInstance();
+        return dispatcher.findClosetElevevator(elevators, numberOfFloors);
     }
 
 }

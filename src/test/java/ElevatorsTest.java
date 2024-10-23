@@ -38,14 +38,14 @@ public class ElevatorsTest {
         // a request is by default from top floor
         assertEquals("id2", idOfFirstAvailableElevator);
     }
-//    @Test
-//    public void elevators_going_down_arrive_last_to_top_floor() {
-//        Building building = new Building(10, "id1:1", "id2:6");
-//        building.move("id2", "DOWN");
-//        // tell the elevator "id2" to move "DOWN".
-//        String idOfFirstAvailableElevator = building.requestElevator();
-//        assertEquals("id1", idOfFirstAvailableElevator);
-//    }
+    @Test
+    public void elevators_going_down_arrive_last_to_top_floor() {
+        Building building = new Building(10, "id1:1", "id2:6");
+        building.move("id2", "DOWN");
+        // tell the elevator "id2" to move "DOWN".
+        String idOfFirstAvailableElevator = building.requestElevator();
+        assertEquals("id1", idOfFirstAvailableElevator);
+    }
 //    @Test
 //    public void elevators_going_up_should_arrive_to_top_floor_before_those_going_down() {
 //        Building building = new Building(10, "id1:1", "id2:6");
