@@ -13,10 +13,27 @@ public class Building {
     }
 
 
+    public List<Elevator> getElevators() {
+        return elevators;
+    }
     public String requestElevator() {
+        return Dispatcher.getInstance().dispatchElevator(elevators, numberOfFloors);
+    }
 
-        Dispatcher dispatcher = Dispatcher.getInstance();
-        return dispatcher.findClosetElevevator(elevators, numberOfFloors);
+    public String requestElevator(int requestedFloor){
+        return Dispatcher.getInstance().dispatchElevator(elevators,requestedFloor);
+    }
+    public void move(String elevatorId, String direction){
+        elevators.stream()
+                .filter(elevator -> elevator.getId().equals(elevatorId))
+                .forEach(e->e.changeDirection(direction));
+                }
+    public void stopAt(String elevatorId, int floor) {
+        elevators.stream()
+                .filter(e-> e.getId()
+                        .equals(elevatorId))
+                        .forEach(e->e.stopAt(floor));
+
     }
 
 }
