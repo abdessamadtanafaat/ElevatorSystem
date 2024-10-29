@@ -1,6 +1,6 @@
 package model;
 
 public interface ElevatorState {
-    //public abstract double calculateDistance(int currentFloor, int targetFloor);
-    double calculateDistance(Elevator elevator, int requestedFloor);
+    void move(Elevator elevator);
+    boolean canServeRequestFromFloor(int floor, Elevator elevator);
 }

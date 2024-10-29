@@ -1,32 +1,35 @@
 package dispatcher;
 
+import model.Building;
 import model.Elevator;
 
-import java.util.*;
-public class Dispatcher {
-    private static Dispatcher instance;
-    private Dispatcher() {}
+import java.util.Optional;
 
-    public static synchronized Dispatcher getInstance() {
-        if (instance == null) {
-            instance = new Dispatcher();
-        }
-        return instance;
+public class Dispatcher {
+    private final Building building;
+
+    public Dispatcher(Building building) {
+        this.building = building;
     }
 
-//    public String findClosetElevevator(List<Elevator> elevators, int topFloor){
-//            return elevators.stream()
-//                    .min((e1, e2) -> Double.compare(
-//                            e1.calculateDistance(topFloor),
-//                            e2.calculateDistance(topFloor)))
-//                    .orElseThrow(() -> new RuntimeException("No Elevators available"))
-//                    .getId();
-//    }
+    // Handles elevator requests with prioritization for going up
+    public String requestElevator(int requestedFloor) {
+        // First, try to find an elevator that is going up and not stopping
+        Optional<Elevator> upElevator = building.findElevatorGoingUp(requestedFloor);
+        if (upElevator.isPresent()) {
+            return upElevator.get().getId();
+        }
 
-    public String dispatchElevator(List<Elevator> elevators, int requestedFloor){
-        return elevators.stream()
-                .min((e1, e2)-> Double.compare(e1.calculateDistance(requestedFloor),e2.calculateDistance(requestedFloor)))
-                .orElseThrow(()-> new RuntimeException("No elevators available"))
-                .getId();
+        // If no elevator going up, fallback to finding the closest one
+        Optional<Elevator> elevator = building.findClosestElevator(requestedFloor);
+        return elevator.map(Elevator::getId).orElse(null);
+    }
+
+    public void moveElevator(String elevatorId, String direction) {
+        building.move(elevatorId, direction);
+    }
+
+    public void stopElevatorAt(String elevatorId, int floor) {
+        building.stopAt(elevatorId, floor);
     }
 }

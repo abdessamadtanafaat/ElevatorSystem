@@ -69,7 +69,7 @@ public class ElevatorsTest {
         building.move("id2", "DOWN");
         building.move("id3", "UP");
         building.stopAt("id3", 7); // request elevator "id3" to stop at level 7
-        String idOfFirstAvailableElevator = building.requestElevator();
+        String idOfFirstAvailableElevator = building.requestElevator(7);
         assertEquals("id1", idOfFirstAvailableElevator);
     }
     @Test

@@ -1,21 +1,17 @@
 package model;
 
 public class GoingUpState implements ElevatorState {
-
-    private static GoingUpState instance = new GoingUpState();
-    private GoingUpState() {}
-
-    public static GoingUpState getInstance(){
-        return instance;
-    }
-
     @Override
-    public double calculateDistance(Elevator elevator, int requestedFloor) {
-        if (requestedFloor >= elevator.getCurrentFloor()) {
-            return Math.abs(requestedFloor - elevator.getCurrentFloor());
+    public void move(Elevator elevator) {
+        if (elevator.getCurrentFloor() < elevator.getMaxFloor()) {
+            elevator.setCurrentFloor(elevator.getCurrentFloor() + 1);
         } else {
-            return Double.MAX_VALUE;
+            elevator.setState(new GoingDownState());
         }
     }
 
+    @Override
+    public boolean canServeRequestFromFloor(int floor, Elevator elevator) {
+        return elevator.getCurrentFloor() <= floor;
+    }
 }
